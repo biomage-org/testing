@@ -21,7 +21,7 @@ module.exports = async (on, config) => {
       }),
     };
   }
-
+  console.log('PROCESS NODE ENV' , process.env.NODE_ENV)
   const userPoolClient = new CognitoIdentityProviderClient(
     {
       region: 'eu-west-1',
@@ -32,6 +32,7 @@ module.exports = async (on, config) => {
   const sandboxId = process.env.SANDBOX_ID || 'default';
 
   const { UserPools } = await userPoolClient.send(new ListUserPoolsCommand({ MaxResults: 60 }));
+  console.log('USER POOLS ', UserPools)
   // setting the user pool id
   const environment = process.env.K8S_ENV || 'development';
   const cognitoEnv = environment === 'development' ? 'staging' : environment; // development env uses staging cognito pool
